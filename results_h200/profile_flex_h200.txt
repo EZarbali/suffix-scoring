@@ -1,0 +1,54 @@
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 12108.65it/s]
+== profiled phases ==
+  phase                     calls     CPU ms     GPU ms
+  flex:forward                  3       67.4      142.9
+  flex:head                     3        1.9        6.9
+  flex:h2d+mask                 3        5.4        1.1
+  flex:gather                   3        1.2        0.1
+  flex:h2d+mask                 3        0.0        0.3
+  flex:gather                   3        0.0        0.1
+  void at::native::warpMergeSortKVInPlace<2, -1, 128, 16, int, long, at::native::GTOp<int, true>, unsigned int, 32>(at::cuda::detail::TensorInfo<int, unsigned int>, unsigned int, unsigned int, unsigned int, at::cuda::detail::TensorInfo<long, unsigned
+  void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<2> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::T
+  void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}>(at::TensorIteratorBas
+  void at::native::vectorized_gather_kernel<16, long>(char*, char*, long*, int, long, long, long, long, bool)      3        0.0        0.0
+  flex:head                     3        0.0        0.0
+  void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_kernel_impl<at::native::OpaqueType<4> >(at::TensorIteratorBase&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::T
+  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, u
+  void at::native::index_elementwise_kernel<128, 4, at::native::gpu_index_kernel<at::native::index_put_kernel_impl<at::native::OpaqueType<4> >(at::TensorIterator&, c10::ArrayRef<long>, c10::ArrayRef<long>)::{lambda(char*, char const*, long)#1}>(at::T
+  void (anonymous namespace)::elementwise_kernel_with_index<int, at::native::arange_cuda_out(c10::Scalar const&, c10::Scalar const&, c10::Scalar const&, at::Tensor&)::{lambda()#1}::operator()() const::{lambda()#4}::operator()() const::{lambda(long)#1
+  void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, 
+  void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::func_wrapper_t<float, at::native::sum_functor<float, float, float>::operator()(at::TensorIterator&)::{lambda(float, float)#1}>, unsigned int, float, 4, 4> >(at::native::
+  void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>, false>(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)      3        0.0        0.0
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+## Call CompiledFxGraph fxmoz24dbhbyni6kd4rmuktsbh6i...         0.00%       0.000us         0.00%       0.000us       0.000us     147.712ms        97.83%     147.712ms      49.237ms             3  
+                                           flex:forward         0.08%     125.903us        42.58%      67.434ms      22.478ms       0.000us         0.00%     142.866ms      47.622ms             3  
+                             Torch-Compiled Region: 1/0         0.06%      95.802us        41.92%      66.389ms      22.130ms       0.000us         0.00%     142.866ms      47.622ms             3  
+## Call CompiledFxGraph fxmoz24dbhbyni6kd4rmuktsbh6i...         4.85%       7.682ms        41.80%      66.204ms      22.068ms       0.000us         0.00%     142.866ms      47.622ms             3  
+                                               aten::mm         2.08%       3.299ms        21.96%      34.781ms      58.851us      70.627ms        46.78%      70.627ms     119.505us           591  
+         nvjet_sm90_tst_256x128_64x4_1x2_h_bz_coopA_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      64.654ms        42.82%      64.654ms     109.957us           588  
+triton_tem_fused__to_copy__unsafe_view_add_cat_flex_...         0.46%     734.160us         2.09%       3.310ms      39.407us      39.845ms        26.39%      39.845ms     474.340us            84  
+triton_tem_fused__to_copy__unsafe_view_add_cat_flex_...         0.00%       0.000us         0.00%       0.000us       0.000us      39.845ms        26.39%      39.845ms     474.340us            84  
+triton_per_fused__to_copy__unsafe_view_add_cat_mean_...         0.35%     555.329us         1.40%       2.213ms      26.351us      14.567ms         9.65%      14.567ms     173.412us            84  
+triton_per_fused__to_copy__unsafe_view_add_cat_mean_...         0.00%       0.000us         0.00%       0.000us       0.000us      14.567ms         9.65%      14.567ms     173.412us            84  
+triton_per_fused__to_copy__unsafe_view_add_cat_mean_...         0.33%     527.829us         1.99%       3.148ms      37.479us       7.456ms         4.94%       7.456ms      88.766us            84  
+triton_per_fused__to_copy__unsafe_view_add_cat_mean_...         0.00%       0.000us         0.00%       0.000us       0.000us       7.456ms         4.94%       7.456ms      88.766us            84  
+## Call CompiledFxGraph fzzvyydmbmvdqg6git3iecsda4gh...         0.00%       0.000us         0.00%       0.000us       0.000us       6.932ms         4.59%       6.932ms       2.311ms             3  
+                                              flex:head         0.06%     100.275us         1.17%       1.854ms     618.016us       0.000us         0.00%       6.916ms       2.305ms             3  
+                             Torch-Compiled Region: 2/0         0.06%      92.251us         0.41%     650.040us     216.680us       0.000us         0.00%       6.900ms       2.300ms             3  
+## Call CompiledFxGraph fzzvyydmbmvdqg6git3iecsda4gh...         0.08%     129.865us         0.32%     499.466us     166.489us       0.000us         0.00%       6.900ms       2.300ms             3  
+               triton_poi_fused__unsafe_view_mul_silu_6         0.27%     434.686us         1.49%       2.366ms      28.169us       5.983ms         3.96%       5.983ms      71.231us            84  
+               triton_poi_fused__unsafe_view_mul_silu_6         0.00%       0.000us         0.00%       0.000us       0.000us       5.983ms         3.96%       5.983ms      71.231us            84  
+                 triton_poi_fused_mm_t_transpose_view_4         0.25%     397.002us         0.80%       1.260ms      15.005us       2.782ms         1.84%       2.782ms      33.115us            84  
+                 triton_poi_fused_mm_t_transpose_view_4         0.00%       0.000us         0.00%       0.000us       0.000us       2.782ms         1.84%       2.782ms      33.115us            84  
+triton_per_fused__to_copy__unsafe_view_add_mean_mul_...         0.17%     274.069us         0.35%     552.637us      14.170us       2.299ms         1.52%       2.299ms      58.957us            39  
+triton_per_fused__to_copy__unsafe_view_add_mean_mul_...         0.00%       0.000us         0.00%       0.000us       0.000us       2.299ms         1.52%       2.299ms      58.957us            39  
+                  triton_red_fused__to_copy_logsumexp_1         0.01%      15.841us         0.02%      26.601us       8.867us       1.922ms         1.27%       1.922ms     640.819us             3  
+                  triton_red_fused__to_copy_logsumexp_1         0.00%       0.000us         0.00%       0.000us       0.000us       1.922ms         1.27%       1.922ms     640.819us             3  
+         nvjet_sm90_tst_128x272_64x4_2x1_v_bz_coopA_TNT         0.00%       0.000us         0.00%       0.000us       0.000us       1.864ms         1.23%       1.864ms       1.864ms             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 158.374ms
+Self CUDA time total: 150.986ms
+
+trace written to results/flex_trace_h200.json  (open in https://ui.perfetto.dev)

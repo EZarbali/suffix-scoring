@@ -1,0 +1,6 @@
+# Tested for the reported numbers: torch==2.14.1 (cu130), transformers==5.22.1
+torch>=2.5          # FlexAttention, SDPA enable_gqa, torch._scaled_mm row-wise scaling
+transformers>=4.51  # Qwen3
+numpy
+matplotlib         # figures
+pytest              # tests only

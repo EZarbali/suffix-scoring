@@ -1,0 +1,7 @@
+options,scorer,batch_size,correct,fill_rate,fp8_mode,hours_for_population,max_abs_vs_gold,mean_abs_vs_gold,mfu,ms_per_seq,n_seq,naive_bf16_swaps_vs_gold,num_workers,peak_mem_gb,seq_per_s,seq_per_s_std,swaps_vs_gold,tflops,top10_vs_gold,top1_vs_gold,warmup_s
+"{""candidates_per_forward"": 100}",naive,1,True,,none,1620.65,1.5673,0.0525,0.001,2333.731,20,13301,0,22.09,0.43,0.0,13452,0.7,0.974,0.9,3.4
+"{""candidates_per_forward"": 64}",kvcache,1,True,,none,322.63,1.537,0.0521,0.004,464.584,20,13301,0,23.64,2.15,0.16,12720,3.3,0.964,0.94,1.4
+{},tree,1,True,,none,14.65,1.5522,0.0542,0.087,21.09,20,13301,0,1.64,47.41,14.71,13133,72.3,0.962,0.98,0.4
+"{""compile"": true, ""max_tokens"": 16384}",tree_batched,256,True,,none,4.07,0.7679,0.0423,0.311,5.864,2000,13301,0,6.56,170.52,3.12,6954,260.1,0.98,0.94,66.7
+"{""max_tokens"": 16384}",tree_pipelined,256,True,0.927,none,4.07,0.7679,0.0423,0.312,5.858,2000,13301,8,6.56,170.69,0.1,6954,260.4,0.98,0.94,30.6
+"{""fp8"": ""none"", ""pack_len"": 16384, ""prune_last_layer"": false}",flex,256,True,0.975,none,3.17,0.7591,0.0417,0.401,4.558,2000,13301,8,6.05,219.4,0.46,6355,334.7,0.962,0.9,20.6

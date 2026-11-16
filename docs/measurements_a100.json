@@ -1,0 +1,38 @@
+{
+  "_comment": "Measured during development on Colab A100 40GB, bf16, bench_50/bench_500 datasets. Used by scripts/plots.py when no benchmark results.json is given.",
+  "gpu": "A100 40GB",
+  "ablation": [
+    {"step": "naive HF reference",               "seq_per_s": 0.18},
+    {"step": "prefix once + KV cache",           "seq_per_s": 1.40},
+    {"step": "prefix tree, 1 seq / forward",     "seq_per_s": 24.7},
+    {"step": "+ batching (dense mask)",          "seq_per_s": 39.4},
+    {"step": "+ torch.compile",                  "seq_per_s": 59.1},
+    {"step": "+ CPU prep in workers",            "seq_per_s": 59.4},
+    {"step": "+ packing + FlexAttention",        "seq_per_s": 81.0},
+    {"step": "+ fused LM head / logsumexp",      "seq_per_s": 89.3}
+  ],
+  "tokens_per_sequence": {
+    "naive: 400 x (prefix + 3)": 410800,
+    "prefix once + 400 x 2 suffix tokens": 1824,
+    "prefix tree: prefix + 26 + ~310 nodes": 1360
+  },
+  "gpu_time_breakdown_ms": {
+    "_comment": "torch.profiler, 32 sequences, pack/max_tokens 16384, compiled",
+    "dense mask (SDPA)":  {"attention": 262.3, "GEMM": 202.9, "logsumexp": 57.2, "other": 59.9},
+    "FlexAttention":      {"attention": 82.5,  "GEMM": 185.8, "logsumexp": 57.2, "other": 56.1}
+  },
+  "kvcache_gpu_time_share": {
+    "_comment": "approximate shares from torch.profiler of KVCacheScorer (3 sequences)",
+    "KV copies (cat, repeat_kv, cache copy)": 0.83,
+    "attention": 0.14,
+    "GEMM": 0.03
+  },
+  "correctness_vs_fp32_gold": {
+    "_comment": "eval_20, first 5 sequences (incl. lengths 0, 1, 2048)",
+    "naive bf16":            {"max_abs": 1.709, "mean_abs": 0.084, "swaps": 1927, "top10": 0.90},
+    "KV cache":              {"max_abs": 1.981, "mean_abs": 0.067, "swaps": 1977, "top10": 0.90},
+    "tree":                  {"max_abs": 2.033, "mean_abs": 0.063, "swaps": 2197, "top10": 0.90},
+    "tree + compile":        {"max_abs": 0.802, "mean_abs": 0.089, "swaps": 1072, "top10": 0.96},
+    "flex + fused head":     {"max_abs": 1.006, "mean_abs": 0.096, "swaps": 1533, "top10": 0.94}
+  }
+}
